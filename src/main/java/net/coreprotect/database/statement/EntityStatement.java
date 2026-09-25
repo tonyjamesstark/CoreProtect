@@ -19,6 +19,7 @@ import org.bukkit.block.BlockState;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 
 import net.coreprotect.bukkit.BukkitAdapter;
+import net.coreprotect.config.Config;
 import net.coreprotect.config.ConfigHandler;
 import net.coreprotect.database.ConsumerWriteBatch;
 import net.coreprotect.database.Database;
@@ -78,14 +79,22 @@ public class EntityStatement {
             return null;
         }
         byte[] canonical = EntityDataCodec.isEncoded(data) ? EntityDataCodec.canonicalize(kind, data) : EntityDataCodec.fromLegacy(kind, data);
-        return targetType.isColumnar() ? canonical : EntityDataCodec.toLegacy(kind, canonical);
+        return usesCompactFormat(targetType) ? canonical : EntityDataCodec.toLegacy(kind, canonical);
     }
 
     private static byte[] serializeDataStrict(List<Object> data, Kind kind, DatabaseType databaseType) throws Exception {
-        if (databaseType.isColumnar()) {
+        if (usesCompactFormat(databaseType)) {
             return EntityDataCodec.encode(kind, data);
         }
         return serializeLegacyData(sanitizeData(data));
+    }
+
+    /**
+     * Columnar backends always store {@link EntityDataCodec} data. Relational backends keep the legacy
+     * Java serialization unless compact-entity-data is enabled. Readers accept both formats per row.
+     */
+    private static boolean usesCompactFormat(DatabaseType databaseType) {
+        return databaseType.isColumnar() || Config.getGlobal().COMPACT_ENTITY_DATA;
     }
 
     private static byte[] serializeLegacyData(List<Object> data) throws Exception {

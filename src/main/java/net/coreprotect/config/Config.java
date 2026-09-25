@@ -73,6 +73,7 @@ public class Config extends Language {
     public boolean ROLLBACK_ITEMS;
     public boolean ROLLBACK_ENTITIES;
     public boolean SKIP_GENERIC_DATA;
+    public boolean COMPACT_ENTITY_DATA;
     public boolean BLOCK_PLACE;
     public boolean BLOCK_BREAK;
     public boolean NATURAL_BREAK;
@@ -145,6 +146,7 @@ public class Config extends Language {
         DEFAULT_VALUES.put("rollback-items", "true");
         DEFAULT_VALUES.put("rollback-entities", "true");
         DEFAULT_VALUES.put("skip-generic-data", "true");
+        DEFAULT_VALUES.put("compact-entity-data", "false");
         DEFAULT_VALUES.put("block-place", "true");
         DEFAULT_VALUES.put("block-break", "true");
         DEFAULT_VALUES.put("natural-break", "true");
@@ -196,6 +198,7 @@ public class Config extends Language {
         HEADERS.put("rollback-items", new String[] { "# If enabled, items taken from containers (etc) will be included in rollbacks." });
         HEADERS.put("rollback-entities", new String[] { "# If enabled, entity kills and player-attributed entity spawns will be included in rollbacks." });
         HEADERS.put("skip-generic-data", new String[] { "# If enabled, generic data, like zombies burning in daylight, won't be logged." });
+        HEADERS.put("compact-entity-data", new String[] { "# If enabled, SQLite and MySQL store entity kill and spawn data in the compact binary format", "# that DuckDB and ClickHouse always use. Rows written this way need CoreProtect v24.1 or newer to read." });
         HEADERS.put("block-place", new String[] { "# Logs blocks placed by players." });
         HEADERS.put("block-break", new String[] { "# Logs blocks broken by players." });
         HEADERS.put("natural-break", new String[] { "# Logs blocks that break off of other blocks; for example, a sign or torch", "# falling off of a dirt block that a player breaks. This is required for", "# beds/doors to properly rollback." });
@@ -277,6 +280,7 @@ public class Config extends Language {
         this.ROLLBACK_ITEMS = this.getBoolean("rollback-items");
         this.ROLLBACK_ENTITIES = this.getBoolean("rollback-entities");
         this.SKIP_GENERIC_DATA = this.getBoolean("skip-generic-data");
+        this.COMPACT_ENTITY_DATA = this.getBoolean("compact-entity-data");
         this.BLOCK_PLACE = this.getBoolean("block-place");
         this.BLOCK_BREAK = this.getBoolean("block-break");
         this.NATURAL_BREAK = this.getBoolean("natural-break");

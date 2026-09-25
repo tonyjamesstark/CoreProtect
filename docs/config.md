@@ -55,6 +55,16 @@ Players must log in with a UUID before UUID-less activity under a changed or rea
 
 Purges require `database-lock`. Stop all installations sharing the database and prefix, enable the lock on the installation performing the purge, then restart or reload it before purging. Also stop all installations before migration. Migration updates only the initiating installation's configuration; update the others before restarting them.
 
+### Entity Data on SQLite and MySQL
+
+Each logged entity kill stores the data needed to restore the mob on rollback. DuckDB and ClickHouse always store it in a compact binary format. SQLite and MySQL use Java serialization by default, which is about eight times larger:
+
+```yaml
+compact-entity-data: false
+```
+
+Set `compact-entity-data: true` to store new entity kill and spawn data in the compact format on SQLite and MySQL. Existing rows are not converted; both formats can be read at the same time. Rows written with this option enabled require CoreProtect 24.1 or newer to read, so do not enable it if you might downgrade to an older version.
+
 ## Per-World Configuration
 
 If you'd like to modify the logging settings for a specific world, simply do the following:
