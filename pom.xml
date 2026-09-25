@@ -132,6 +132,7 @@
                     <allowedRepository>enginehub-repo</allowedRepository>
                     <allowedRepository>spigot-repo</allowedRepository>
                     <allowedRepository>paper-repo</allowedRepository>
+                    <allowedRepository>purpur-repo</allowedRepository>
                     <allowedRepository>codemc-repo</allowedRepository>
                     <allowedRepository>jitpack.io</allowedRepository>
                   </allowedRepositories>
@@ -201,6 +202,10 @@
       <url>https://repo.papermc.io/repository/maven-public/</url>
     </repository>
     <repository>
+      <id>purpur-repo</id>
+      <url>https://repo.purpurmc.org/snapshots</url>
+    </repository>
+    <repository>
       <id>codemc-repo</id>
       <url>https://repo.codemc.org/repository/maven-public/</url>
     </repository>
@@ -211,15 +216,16 @@
   </repositories>
   <dependencies>
     <!--
+    purpur-api: org.purpurmc.purpur (includes paper-api)
     paper-api: io.papermc.paper
     paper-api (<= 1.16): com.destroystokyo.paper / 1.16.1-R0.1-SNAPSHOT
     spigot-api: org.spigotmc
     bukkit: org.bukkit
     -->
     <dependency>
-      <groupId>io.papermc.paper</groupId>
-      <artifactId>paper-api</artifactId>
-      <version>26.3.build.38-alpha</version> <!-- https://repo.papermc.io/repository/maven-public/io/papermc/paper/paper-api/ -->
+      <groupId>org.purpurmc.purpur</groupId>
+      <artifactId>purpur-api</artifactId>
+      <version>26.2.build.2633-stable</version> <!-- https://repo.purpurmc.org/snapshots/org/purpurmc/purpur/purpur-api/ -->
       <scope>provided</scope>
     </dependency>
     <dependency>
